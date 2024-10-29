@@ -63,39 +63,18 @@ def dALLdt(X, t):
 
 X = odeint(dALLdt, [-65, 0.05, 0.6, 0.32], t)
 V = X[:, 0]
-m = X[:, 1]
-h = X[:, 2]
-n = X[:, 3]
-
-ina = I_Na(V, m, h)
-ik = I_K(V, n)
-il = I_L(V)
 
 """
 Plotting
 """
 plt.figure(figsize=(12, 7))
 
-plt.subplot(4, 1, 1)
+plt.subplot(2, 1, 1)
 plt.title("Hodgkin-Huxley model simulation")
 plt.plot(t, V, "k")
 plt.ylabel("V (mV)")
 
-plt.subplot(4, 1, 2)
-plt.plot(t, ina, "firebrick", label="$I_{Na} $")
-plt.plot(t, ik, "orange", label="$I_{K} $")
-plt.plot(t, il, "darkviolet", label="$I_{L}$")
-plt.ylabel("Current")
-plt.legend()
-
-plt.subplot(4, 1, 3)
-plt.plot(t, m, "g", label="m")
-plt.plot(t, h, "r", label="h")
-plt.plot(t, n, "b", label="n")
-plt.ylabel("Gating Value")
-plt.legend()
-
-plt.subplot(4, 1, 4)
+plt.subplot(2, 1, 2)
 plt.plot(t, I_inj(t), "k")
 plt.xlabel("t (ms)")
 plt.ylabel("$I_{inj}$ ($\\mu{A}/cm^2$)")
