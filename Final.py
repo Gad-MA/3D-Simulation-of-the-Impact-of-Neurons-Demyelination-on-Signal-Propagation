@@ -2,6 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 
+# Dmylination effect parameters
+isSensoryMylinated = 1
+isExtensorMylinated = 1
+isFlexorMylinated = 1
+isInhibitorMylinated = 1
+
+Cm_demylinated = 5
+
 # Hodgkin-Huxley Parameters
 Cm = 1
 g_Na, g_K, g_L = 120, 36, 0.3
@@ -88,7 +96,7 @@ def dSystem_dt(X, t):
     # Sensory neuron dynamics
     dV_sens = (
         I_stim(t) - I_Na(V_sens, m_sens, h_sens) - I_K(V_sens, n_sens) - I_L(V_sens)
-    ) / Cm
+    ) / (Cm if isSensoryMylinated else Cm_demylinated)
     dm_sens = alpha_m(V_sens) * (1 - m_sens) - beta_m(V_sens) * m_sens
     dh_sens = alpha_h(V_sens) * (1 - h_sens) - beta_h(V_sens) * h_sens
     dn_sens = alpha_n(V_sens) * (1 - n_sens) - beta_n(V_sens) * n_sens
@@ -96,7 +104,7 @@ def dSystem_dt(X, t):
     # Extensor motor neuron dynamics
     dV_ext = (
         I_sens_ext - I_Na(V_ext, m_ext, h_ext) - I_K(V_ext, n_ext) - I_L(V_ext)
-    ) / Cm
+    ) / (Cm if isExtensorMylinated else Cm_demylinated)
     dm_ext = alpha_m(V_ext) * (1 - m_ext) - beta_m(V_ext) * m_ext
     dh_ext = alpha_h(V_ext) * (1 - h_ext) - beta_h(V_ext) * h_ext
     dn_ext = alpha_n(V_ext) * (1 - n_ext) - beta_n(V_ext) * n_ext
@@ -104,7 +112,7 @@ def dSystem_dt(X, t):
     # Inhibitory interneuron dynamics
     dV_inh = (
         I_sens_inh - I_Na(V_inh, m_inh, h_inh) - I_K(V_inh, n_inh) - I_L(V_inh)
-    ) / Cm
+    ) / (Cm if isInhibitorMylinated else Cm_demylinated)
     dm_inh = alpha_m(V_inh) * (1 - m_inh) - beta_m(V_inh) * m_inh
     dh_inh = alpha_h(V_inh) * (1 - h_inh) - beta_h(V_inh) * h_inh
     dn_inh = alpha_n(V_inh) * (1 - n_inh) - beta_n(V_inh) * n_inh
@@ -112,7 +120,7 @@ def dSystem_dt(X, t):
     # Flexor motor neuron dynamics
     dV_flex = (
         I_inh_flex - I_Na(V_flex, m_flex, h_flex) - I_K(V_flex, n_flex) - I_L(V_flex)
-    ) / Cm
+    ) / (Cm if isFlexorMylinated else Cm_demylinated)
     dm_flex = alpha_m(V_flex) * (1 - m_flex) - beta_m(V_flex) * m_flex
     dh_flex = alpha_h(V_flex) * (1 - h_flex) - beta_h(V_flex) * h_flex
     dn_flex = alpha_n(V_flex) * (1 - n_flex) - beta_n(V_flex) * n_flex
@@ -150,42 +158,39 @@ X = odeint(dSystem_dt, X0, t)
 Plotting separated
 """
 # Plot results
-# plt.figure(figsize=(12, 10))
+plt.figure(figsize=(12, 10))
 
 # Stimulus
-# plt.subplot(5, 1, 1)
-# plt.plot(t, [I_stim(ti) for ti in t], 'k', label='Stimulus')
-# plt.ylabel('Current\n(μA/cm²)')
-# plt.title('Knee-jerk Reflex Simulation')
-# plt.legend()
+plt.subplot(5, 1, 1)
+plt.plot(t, [I_stim(ti) for ti in t], 'k', label='Stimulus')
+plt.ylabel('Current\n(μA/cm²)')
+plt.title('Knee-jerk Reflex Simulation')
+plt.legend()
 
 # Sensory neuron
-# plt.subplot(5, 1, 2)
-# plt.plot(t, X[:, 0], 'b', label='Sensory')
-# plt.ylabel('Voltage (mV)')
-# plt.legend()
+plt.subplot(5, 1, 2)
+plt.plot(t, X[:, 0], 'b', label='Sensory')
+plt.ylabel('Voltage (mV)')
+plt.legend()
 
-# # Extensor motor neuron
-# plt.subplot(5, 1, 3)
-# plt.plot(t, X[:, 4], 'g', label='Extensor')
-# plt.ylabel('Voltage (mV)')
-# plt.legend()
+# Extensor motor neuron
+plt.subplot(5, 1, 3)
+plt.plot(t, X[:, 4], 'g', label='Extensor')
+plt.ylabel('Voltage (mV)')
+plt.legend()
 
-# # Inhibitory interneuron
-# plt.subplot(5, 1, 4)
-# plt.plot(t, X[:, 8], 'r', label='Inhibitory')
-# plt.ylabel('Voltage (mV)')
-# plt.legend()
+# Inhibitory interneuron
+plt.subplot(5, 1, 4)
+plt.plot(t, X[:, 8], 'r', label='Inhibitory')
+plt.ylabel('Voltage (mV)')
+plt.legend()
 
-# # Flexor motor neuron
-# plt.subplot(5, 1, 5)
-# plt.plot(t, X[:, 12], 'purple', label='Flexor')
-# plt.xlabel('Time (ms)')
-# plt.ylabel('Voltage (mV)')
-# plt.legend()
-
-# plt.tight_layout()
-# plt.show()
+# Flexor motor neuron
+plt.subplot(5, 1, 5)
+plt.plot(t, X[:, 12], 'purple', label='Flexor')
+plt.xlabel('Time (ms)')
+plt.ylabel('Voltage (mV)')
+plt.legend()
 
 """
 Plotting
