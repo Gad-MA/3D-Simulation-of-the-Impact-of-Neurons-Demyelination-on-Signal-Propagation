@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
+import csv
 
 # Dmylination effect parameters
 isSensoryMylinated = 1
@@ -154,20 +155,36 @@ X0 = np.array([-65, 0.05, 0.6, 0.32] * 4)  # Repeated for all 4 neurons
 # Solve the system
 X = odeint(dSystem_dt, X0, t)
 
+
+def toCSV(l1, l2, l3, l4):
+    with open("output.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerows([l1, l2, l3, l4])
+
+
 sensoryNeuronActivation = X[:, 0]
 extensorNeuronActivation = X[:, 4]
 inhibitorNeuronActivation = X[:, 8]
 flexorNeuronActivation = X[:, 12]
 
-threshold = -55 # in mV
+threshold = -55  # in mV
 
 for i in range(5000):
-    sensoryNeuronActivation[i] = 1 if(sensoryNeuronActivation[i] >= threshold) else 0
-    extensorNeuronActivation[i] = 1 if(extensorNeuronActivation[i] >= threshold) else 0
-    inhibitorNeuronActivation[i] = 1 if(inhibitorNeuronActivation[i] >= threshold) else 0
-    flexorNeuronActivation[i] = 1 if(flexorNeuronActivation[i] >= threshold) else 0
+    sensoryNeuronActivation[i] = 1 if (sensoryNeuronActivation[i] >= threshold) else 0
+    extensorNeuronActivation[i] = 1 if (extensorNeuronActivation[i] >= threshold) else 0
+    inhibitorNeuronActivation[i] = (
+        1 if (inhibitorNeuronActivation[i] >= threshold) else 0
+    )
+    flexorNeuronActivation[i] = 1 if (flexorNeuronActivation[i] >= threshold) else 0
 
-print(sensoryNeuronActivation)
-print(extensorNeuronActivation)
-print(inhibitorNeuronActivation)
-print(flexorNeuronActivation)
+# print(sensoryNeuronActivation)
+# print(extensorNeuronActivation)
+# print(inhibitorNeuronActivation)
+# print(flexorNeuronActivation)
+
+toCSV(
+    sensoryNeuronActivation,
+    extensorNeuronActivation,
+    inhibitorNeuronActivation,
+    flexorNeuronActivation,
+)
