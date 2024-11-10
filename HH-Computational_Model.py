@@ -193,7 +193,7 @@ plt.ylabel('Voltage (mV)')
 plt.legend()
 
 """
-Plotting
+Plotting overlapping
 """
 # Plot results
 plt.figure(figsize=(12, 10))
