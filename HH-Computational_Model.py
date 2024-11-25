@@ -8,10 +8,10 @@ isExtensorMylinated = 1
 isFlexorMylinated = 1
 isInhibitorMylinated = 1
 
-Cm_demylinated = 5
+Cm_demylinated = 5 # in microF/cm
 
 # Hodgkin-Huxley Parameters
-Cm = 1
+Cm = 1 # in microF/cm
 g_Na, g_K, g_L = 120, 36, 0.3
 E_Na, E_K, E_L = 60, -88, -54.387
 
