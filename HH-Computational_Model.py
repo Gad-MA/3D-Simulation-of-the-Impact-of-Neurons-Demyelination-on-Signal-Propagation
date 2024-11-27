@@ -6,9 +6,9 @@ from scipy.integrate import odeint
 isSensoryMylinated = 1
 isExtensorMylinated = 1
 isFlexorMylinated = 1
-isInhibitorMylinated = 0
+isInhibitorMylinated = 1
 
-Cm_demylinated = 5 # in microF/cm
+Cm_demylinated = 7 # in microF/cm
 
 # Hodgkin-Huxley Parameters
 Cm = 1 # in microF/cm
@@ -65,20 +65,18 @@ beta_r = 0.1   # Rate constant for channel closing
 threshold = -20  # Presynaptic spike threshold
 
 def T(V_pre):
-    """Neurotransmitter release term triggered by presynaptic spikes."""
     return 1 if V_pre > threshold else 0
 
 def synaptic_current(V_pre, V_post, g_syn, E_syn, r):
-    """Synaptic current with gating variable."""
     return g_syn * r * (E_syn - V_post)
 
 def dr_dt(r, V_pre):
-    """Dynamics of the gating variable r."""
     return alpha_r * T(V_pre) * (1 - r) - beta_r * r
 
 # Stimulus function (tap to the knee)
 def I_stim(t):
-    return 40 * (t > 10) * (t < 11)  # Brief 1ms stimulus at t=10ms
+    # return 40 * (t > 10) * (t < 11)  # Brief 1ms stimulus at t=10ms
+    return 40 * ()  # Brief 1ms stimulus at t=10ms
 
 def noise_current(V_sens):
     
