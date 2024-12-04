@@ -75,8 +75,7 @@ def dr_dt(r, V_pre):
 
 # Stimulus function (tap to the knee)
 def I_stim(t):
-    # return 40 * (t > 10) * (t < 11)  # Brief 1ms stimulus at t=10ms
-    return 40 * ()  # Brief 1ms stimulus at t=10ms
+    return 40 if 10 <= t < 11 else 0
 
 def noise_current(V_sens):
     
