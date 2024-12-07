@@ -8,7 +8,7 @@ model = computional_model(
     simulation_duration=simulation_duration,
     isSensoryMylinated=1,
     isExtensorMylinated=1,
-    isInhibitorMylinated=0,
+    isInhibitorMylinated=1,
     isFlexorMylinated=1,
 )
 
