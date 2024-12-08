@@ -6,7 +6,13 @@ stimulus_initial_time = 10
 stimulus_duration = 1
 simulation_duration = 50
 model = computional_model(
-    stimulus_initial_time, stimulus_duration, simulation_duration, 1, 1, 1, 1
+    stimulus_initial_time,
+    stimulus_duration,
+    simulation_duration,
+    isSensoryMylinated=1,
+    isExtensorMylinated=0,
+    isInhibitorMylinated=1,
+    isFlexorMylinated=1,
 )
 
 """
@@ -26,30 +32,35 @@ plt.plot(
 )
 plt.ylabel("Current\n(μA/cm²)")
 plt.title("Knee-jerk Reflex Simulation")
+plt.grid()
 plt.legend()
 
 # Sensory neuron
 plt.subplot(5, 1, 2)
 plt.plot(t, model["sensory"], "b", label="Sensory")
 plt.ylabel("Voltage (mV)")
+plt.grid()
 plt.legend()
 
 # Extensor motor neuron
 plt.subplot(5, 1, 3)
 plt.plot(t, model["extensor"], "g", label="Extensor")
 plt.ylabel("Voltage (mV)")
+plt.grid()
 plt.legend()
 
 # Inhibitory interneuron
 plt.subplot(5, 1, 4)
 plt.plot(t, model["inhibitory"], "r", label="Inhibitory")
 plt.ylabel("Voltage (mV)")
+plt.grid()
 plt.legend()
 
 # Flexor motor neuron
 plt.subplot(5, 1, 5)
 plt.plot(t, model["flexor"], "purple", label="Flexor")
 plt.xlabel("Time (ms)")
+plt.grid()
 plt.ylabel("Voltage (mV)")
 plt.legend()
 
@@ -69,6 +80,7 @@ plt.plot(
 )
 plt.ylabel("Current\n(μA/cm²)")
 plt.title("Knee-jerk Reflex Simulation")
+plt.grid()
 plt.legend()
 
 # Sensory neuron
@@ -79,6 +91,7 @@ plt.plot(t, model["inhibitory"], "r", label="Inhibitory")
 plt.plot(t, model["flexor"], "purple", label="Flexor")
 plt.xlabel("Time (ms)")
 plt.ylabel("Voltage (mV)")
+plt.grid()
 plt.legend()
 
 

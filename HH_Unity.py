@@ -1,18 +1,20 @@
 from HH_Computational_Model import computional_model, dt
-from helpers import toCSV
+from helpers import toCSV, myelinToggles
+
+myelinToggles = myelinToggles()
 
 simulation_duration = 50
 model = computional_model(
     stimulus_initial_time=0,
     stimulus_duration=1,
     simulation_duration=simulation_duration,
-    isSensoryMylinated=1,
-    isExtensorMylinated=1,
-    isInhibitorMylinated=1,
-    isFlexorMylinated=1,
+    isSensoryMylinated=myelinToggles['isSensoryMyelinated'],
+    isExtensorMylinated=myelinToggles['isExtensorMyelinated'],
+    isInhibitorMylinated=myelinToggles['isInhibitoryMyelinated'],
+    isFlexorMylinated=myelinToggles['isFlexorMyelinated'],
 )
 
-activation_threshold = -55  # in mV
+activation_threshold = -53  # in mV
 
 
 for i in range(int(simulation_duration / dt)):
