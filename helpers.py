@@ -11,7 +11,7 @@ def myelinToggles():
             "isFlexorMyelinated": data['FlexorMyelination'],
         }
 
-def toCSV(l1, l2, l3, l4):
-    with open("ExternalData/output.csv", "w", newline="") as file:
+def toCSV(output_name,l1, l2, l3, l4):
+    with open("ExternalData/"+output_name, "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerows([l1, l2, l3, l4])

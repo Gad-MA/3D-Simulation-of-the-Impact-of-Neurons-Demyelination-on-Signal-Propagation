@@ -10,7 +10,7 @@ model = computional_model(
     stimulus_duration,
     simulation_duration,
     isSensoryMylinated=1,
-    isExtensorMylinated=0,
+    isExtensorMylinated=1,
     isInhibitorMylinated=1,
     isFlexorMylinated=1,
 )
