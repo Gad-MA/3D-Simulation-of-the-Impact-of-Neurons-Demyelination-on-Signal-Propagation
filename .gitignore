@@ -1,2 +1,3 @@
 __pycache__/
 ExternalData/*.csv
+ExternalData/*.png

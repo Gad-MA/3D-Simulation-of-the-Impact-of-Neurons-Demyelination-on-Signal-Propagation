@@ -1,12 +1,14 @@
 from HH_Computational_Model import computional_model, dt
-from helpers import toCSV, myelinToggles
+from helpers import toCSV, myelinToggles, plot
 
 myelinToggles = myelinToggles()
 
 simulation_duration = 50
+stimulus_initial_time = 0
+stimulus_duration = 1
 model = computional_model(
-    stimulus_initial_time=0,
-    stimulus_duration=1,
+    stimulus_initial_time=stimulus_initial_time,
+    stimulus_duration=stimulus_duration,
     simulation_duration=simulation_duration,
     isSensoryMylinated=myelinToggles["isSensoryMyelinated"],
     isExtensorMylinated=myelinToggles["isExtensorMyelinated"],
@@ -21,22 +23,10 @@ peaks = {
     "flexor": -65,
 }
 
-activation_threshold = -53  # in mV
-
-
-# for i in range(int(simulation_duration / dt)):
-#     for neuron in model:
-#         model[neuron][i] = (
-#             int(abs(model[neuron][i] - activation_threshold))
-#             if (model[neuron][i] >= activation_threshold)
-#             else 0
-#         )
-
 for i in range(int(simulation_duration / dt)):
     for neuron in model:
         if model[neuron][i] > peaks[neuron]:
             peaks[neuron] = model[neuron][i]
-
 
 toCSV(
     "neurons_volages.csv",
@@ -53,3 +43,5 @@ toCSV(
     [peaks["inhibitory"]],
     [peaks["flexor"]],
 )
+
+plot(stimulus_initial_time, stimulus_duration, simulation_duration,model, True)
